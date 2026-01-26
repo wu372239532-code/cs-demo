@@ -142,7 +142,7 @@ const handleSearch = async () => {
 
   try {
     // 调用后端搜索接口
-    const response = await fetch(`https://ffdemo.zeabur.app/api/user/search?query=${formData.phone}`)
+    const response = await fetch(`https://ff-api.zeabur.app/api/user/search?query=${formData.phone}`)
     const result = await response.json()
 
     if (result.success && result.data) {
@@ -178,7 +178,7 @@ const handleSubmit = async () => {
 
     try {
       // 提交数据到后端
-      const response = await fetch('https://ffdemo.zeabur.app/api/risk', {
+      const response = await fetch('https://ff-api.zeabur.app/api/risk', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -220,7 +220,7 @@ const handleWeatherQuery = async () => {
 
   try {
     const city = encodeURIComponent(weatherCity.value.trim())
-    const response = await fetch(`https://ffdemo.zeabur.app/api/weather?city=${city}`)
+    const response = await fetch(`https://ff-api.zeabur.app/api/weather?city=${city}`)
     const result = await response.json()
 
     if (result.success && result.data) {
@@ -286,5 +286,6 @@ const handleReset = () => {
   margin-top: 20px;
 }
 </style>
+
 
 
