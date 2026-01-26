@@ -44,7 +44,7 @@ const fetchRiskList = async () => {
 
   try {
     // 调用后端接口获取风控记录列表
-    const response = await fetch('http://127.0.0.1:5000/api/risk')
+    const response = await fetch('https://ffdemo.zeabur.app/api/risk')
     const result = await response.json()
 
     if (result.success) {
@@ -91,4 +91,5 @@ onMounted(() => {
   font-weight: 600;
 }
 </style>
+
 
