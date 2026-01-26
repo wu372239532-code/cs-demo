@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑记录</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 10px;
+        }
+        .form-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        .btn-cancel {
+            background-color: #999;
+            color: white;
+        }
+        .btn-cancel:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>编辑记录</h1>
+        
+        <div class="form-section">
+            <form action="/edit/{{ entry.id }}" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>打款类目:</label>
+                        <input type="text" name="payment_category" value="{{ entry.payment_category }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>关联活动:</label>
+                        <input type="text" name="related_activity" value="{{ entry.related_activity }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>类目复盘人:</label>
+                        <input type="text" name="reviewer" value="{{ entry.reviewer }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>类目额度（元）:</label>
+                        <input type="number" name="amount_limit" value="{{ entry.amount_limit }}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>所属项目:</label>
+                        <input type="text" name="project" value="{{ entry.project }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>项目复盘人:</label>
+                        <input type="text" name="project_reviewer" value="{{ entry.project_reviewer }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>品类:</label>
+                        <input type="text" name="category" value="{{ entry.category }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>状态:</label>
+                        <select name="status">
+                            <option value="启用" {% if entry.status == '启用' %}selected{% endif %}>启用</option>
+                            <option value="禁用" {% if entry.status == '禁用' %}selected{% endif %}>禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">保存</button>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/'">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
