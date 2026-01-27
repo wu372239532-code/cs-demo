@@ -157,7 +157,4 @@ def get_weather():
         }), 500
 
 
-if __name__ == '__main__':
-    # 运行 Flask 应用，监听 5000 端口
-    app.run(host='127.0.0.1', port=5000, debug=True)
 
