@@ -95,26 +95,21 @@ import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 
-// 表单引用
 const formRef = ref(null)
 
-// 加载状态
 const searchLoading = ref(false)
 const submitLoading = ref(false)
 const weatherLoading = ref(false)
 
-// 天气相关数据
 const weatherCity = ref('')
 const weatherData = ref(null)
 
-// 表单数据
 const formData = reactive({
   phone: '',
   name: '',
   punishment: ''
 })
 
-// 表单验证规则
 const rules = {
   phone: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -125,14 +120,13 @@ const rules = {
   ]
 }
 
-// 查询用户信息
+// ✅ 查询用户信息
 const handleSearch = async () => {
   if (!formData.phone) {
     ElMessage.warning('请输入手机号')
     return
   }
 
-  // 验证手机号格式
   if (!/^1[3-9]\d{9}$/.test(formData.phone)) {
     ElMessage.error('请输入正确的手机号格式')
     return
@@ -141,16 +135,15 @@ const handleSearch = async () => {
   searchLoading.value = true
 
   try {
-    // 调用后端搜索接口
-    const response = await fetch(`https://ff-api.zeabur.app/api/user/search?query=${formData.phone}`)
+    const response = await fetch(
+      `https://apidemo.zeabur.app/api/user/search?query=${formData.phone}`
+    )
     const result = await response.json()
 
     if (result.success && result.data) {
-      // 查询成功，填充姓名
       formData.name = result.data.name
       ElMessage.success('查询成功')
     } else {
-      // 查询失败
       formData.name = ''
       ElMessage.warning(result.message || '未找到该用户')
     }
@@ -163,9 +156,8 @@ const handleSearch = async () => {
   }
 }
 
-// 提交表单
+// ✅ 提交表单
 const handleSubmit = async () => {
-  // 表单验证
   if (!formRef.value) return
 
   await formRef.value.validate(async (valid) => {
@@ -177,7 +169,6 @@ const handleSubmit = async () => {
     submitLoading.value = true
 
     try {
-      // 提交数据到后端
       const response = await fetch('https://ff-api.zeabur.app/api/risk', {
         method: 'POST',
         headers: {
@@ -194,7 +185,6 @@ const handleSubmit = async () => {
 
       if (result.success) {
         ElMessage.success('提交成功')
-        // 提交成功后跳转到列表页
         router.push('/list')
       } else {
         ElMessage.error(result.error || '提交失败')
@@ -208,7 +198,7 @@ const handleSubmit = async () => {
   })
 }
 
-// 查询天气
+// ✅ 查询天气
 const handleWeatherQuery = async () => {
   if (!weatherCity.value || !weatherCity.value.trim()) {
     ElMessage.warning('请输入城市名称')
@@ -220,7 +210,9 @@ const handleWeatherQuery = async () => {
 
   try {
     const city = encodeURIComponent(weatherCity.value.trim())
-    const response = await fetch(`https://ff-api.zeabur.app/api/weather?city=${city}`)
+    const response = await fetch(
+      `https://ff-api.zeabur.app/api/weather?city=${city}`
+    )
     const result = await response.json()
 
     if (result.success && result.data) {
@@ -239,7 +231,7 @@ const handleWeatherQuery = async () => {
   }
 }
 
-// 重置表单
+// ✅ 重置表单
 const handleReset = () => {
   if (formRef.value) {
     formRef.value.resetFields()
@@ -286,6 +278,3 @@ const handleReset = () => {
   margin-top: 20px;
 }
 </style>
-
-
-
