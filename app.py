@@ -90,9 +90,7 @@ def get_risk_list():
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
     """
-    天气查询接口
-    接收 city 参数，调用 wttr.in API 获取天气信息
-    返回实时气温和天气描述
+    天气查询接口（Mock 数据版本）
     """
     city = request.args.get('city', '').strip()
     
@@ -101,60 +99,40 @@ def get_weather():
             'success': False,
             'error': '城市参数不能为空'
         }), 400
-    
-    try:
-        # 调用 wttr.in API
-        url = f'https://wttr.in/{city}?format=j1'
-        response = requests.get(url, timeout=10)
-        
-        # 检查请求是否成功
-        if response.status_code != 200:
-            return jsonify({
-                'success': False,
-                'error': f'天气服务请求失败，状态码: {response.status_code}'
-            }), 500
-        
-        # 解析 JSON 响应
-        weather_data = response.json()
-        
-        # 提取当前天气信息
-        current_condition = weather_data.get('current_condition', [])
-        if not current_condition:
-            return jsonify({
-                'success': False,
-                'error': '无法获取天气数据'
-            }), 500
-        
-        current = current_condition[0]
-        
-        # 提取气温和天气描述
-        temperature = current.get('temp_C', 'N/A')
-        weather_desc = current.get('weatherDesc', [{}])[0].get('value', 'N/A')
-        
+
+    # Mock 固定返回数据（不再请求外部网络）
+    return jsonify({
+        'success': True,
+        'data': {
+            'city': city,
+            'temperature': '26',
+            'description': '晴转多云'
+        }
+    }), 200
+    """
+    本地 Mock 天气接口，不调用外部服务
+    保持与之前相同的路径和参数：
+    - 路径：/api/weather
+    - 参数：city（查询字符串）
+    """
+    city = request.args.get('city', '').strip()
+
+    # 参数校验
+    if not city:
         return jsonify({
-            'success': True,
-            'data': {
-                'city': city,
-                'temperature': temperature,
-                'description': weather_desc
-            }
-        }), 200
-        
-    except requests.exceptions.RequestException as e:
-        return jsonify({
-            'success': False,
-            'error': f'请求天气服务时发生错误: {str(e)}'
-        }), 500
-    except (KeyError, IndexError, ValueError) as e:
-        return jsonify({
-            'success': False,
-            'error': f'解析天气数据时发生错误: {str(e)}'
-        }), 500
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': f'未知错误: {str(e)}'
-        }), 500
+            "success": False,
+            "error": "城市参数不能为空"
+        }), 400
+
+    # 固定返回的 Mock 数据
+    return jsonify({
+        "success": True,
+        "data": {
+            "city": city,
+            "temperature": "26",
+            "description": "晴转多云"
+        }
+    }), 200
 
 
 
