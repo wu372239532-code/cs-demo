@@ -169,7 +169,7 @@ const handleSubmit = async () => {
     submitLoading.value = true
 
     try {
-      const response = await fetch('https://ff-api.zeabur.app/api/risk', {
+      const response = await fetch('https://apidemo.zeabur.app/api/risk', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -211,7 +211,7 @@ const handleWeatherQuery = async () => {
   try {
     const city = encodeURIComponent(weatherCity.value.trim())
     const response = await fetch(
-      `https://ff-api.zeabur.app/api/weather?city=${city}`
+      `https://apidemo.zeabur.app/api/weather?city=${city}
     )
     const result = await response.json()
 
